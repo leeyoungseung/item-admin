@@ -1,0 +1,54 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.0'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+apply plugin: 'eclipse'
+apply plugin: 'war'
+
+group = 'com.item'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+    all*.exclude module : 'spring-boot-starter-logging'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation group: 'org.lazyluke', name: 'log4jdbc-remix', version: '0.2.7'
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+	implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.10.3'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+    runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation 'javax.servlet:jstl:1.2'
+	
+	annotationProcessor 'org.projectlombok:lombok:1.18.6'
+	compileOnly 'org.projectlombok:lombok:1.18.6'
+	
+	implementation group: 'org.webjars', name: 'jquery', version: '3.6.0'
+	implementation group: 'org.webjars', name: 'bootstrap', version: '4.6.0'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+ext.profile = (!project.hasProperty('profile') || !profile) ? 'dev' : profile
+
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/resources/*", "src/main/env/${profile}"
+        }
+    }
+}
