@@ -1,5 +1,6 @@
 package com.example.itemadmin.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -26,6 +27,13 @@ public class ItemAdminController {
 	
 	@Autowired
 	ItemService itemService;
+	
+	
+	@GetMapping(path = "/items")
+	public ResponseEntity<List<Item>> getItemAll() {
+		log.info("ItemAdminController getItemAll ");
+		return itemService.getItemAll();
+	}
 	
 	
 	@GetMapping(path = "/items/{itemId}")

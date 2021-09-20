@@ -1,6 +1,7 @@
 package com.example.itemadmin.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -24,6 +25,11 @@ public class ItemService {
 	private static final Logger log = LogManager.getLogger(ItemService.class);
 	
 	private final ItemRepository itemRepository;
+	
+	public ResponseEntity<List<Item>> getItemAll() {
+		log.info("ItemService getItemAll");
+		return ResponseEntity.ok(itemRepository.findAll());
+	}
 
 	public ResponseEntity<Item> getItem(int itemId) {
 		log.info("ItemService getItem ID : "+itemId);
